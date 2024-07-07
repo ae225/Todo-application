@@ -62,10 +62,21 @@ public class App {
         String lastName = scanner.nextLine();
         System.out.print("Enter email: ");
         String email = scanner.nextLine();
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+        System.out.println("Enter role (1 for USER, 2 for ADMIN): ");
+        int roleChoice = scanner.nextInt();
+        scanner.nextLine();
+        AppRole role = (roleChoice == 1) ? AppRole.ROLE_APP_USER : AppRole.ROLE_APP_ADMIN;
 
         Person person = new Person(personIdCounter++, firstName, lastName, email);
+        AppUser appUser = new AppUser(username, password, role);
+        person.setCredentials(appUser);
+
         persons.add(person);
-        System.out.println("Person added: " + person.getSummary());
+        System.out.println("Person added: " + person);
     }
 
     private static void addTodoItem(Scanner scanner) {
@@ -79,7 +90,7 @@ public class App {
 
         System.out.println("Choose creator by ID:");
         for (Person person : persons) {
-            System.out.println(person.getId() + ": " + person.getSummary());
+            System.out.println(person.getId() + ": " + person);
         }
         int creatorId = scanner.nextInt();
         scanner.nextLine();
@@ -92,13 +103,13 @@ public class App {
 
         TodoItem todoItem = new TodoItem(todoItemIdCounter++, title, description, deadline, false, creator);
         todoItems.add(todoItem);
-        System.out.println("Todo item added: " + todoItem.getSummary());
+        System.out.println("Todo item added: " + todoItem);
     }
 
     private static void assignTodoItem(Scanner scanner) {
         System.out.println("Choose todo item by ID:");
         for (TodoItem todoItem : todoItems) {
-            System.out.println(todoItem.getId() + ": " + todoItem.getSummary());
+            System.out.println(todoItem.getId() + ": " + todoItem);
         }
         int todoItemId = scanner.nextInt();
         scanner.nextLine();
@@ -111,7 +122,7 @@ public class App {
 
         System.out.println("Choose assignee by ID:");
         for (Person person : persons) {
-            System.out.println(person.getId() + ": " + person.getSummary());
+            System.out.println(person.getId() + ": " + person);
         }
         int assigneeId = scanner.nextInt();
         scanner.nextLine();
@@ -124,7 +135,7 @@ public class App {
 
         TodoItemTask todoItemTask = new TodoItemTask(todoItemTaskIdCounter++, todoItem, assignee);
         todoItemTasks.add(todoItemTask);
-        System.out.println("Todo item task assigned: " + todoItemTask.getSummary());
+        System.out.println("Todo item task assigned: " + todoItemTask);
     }
 
     private static void viewAllTodoItems() {
@@ -132,7 +143,7 @@ public class App {
             System.out.println("No todo items available.");
         } else {
             for (TodoItem todoItem : todoItems) {
-                System.out.println(todoItem.getSummary());
+                System.out.println(todoItem);
             }
         }
     }
@@ -142,7 +153,7 @@ public class App {
             System.out.println("No todo item tasks available.");
         } else {
             for (TodoItemTask todoItemTask : todoItemTasks) {
-                System.out.println(todoItemTask.getSummary());
+                System.out.println(todoItemTask);
             }
         }
     }

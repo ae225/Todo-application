@@ -35,4 +35,14 @@ class TodoItemTaskTest {
         assertTrue(todoItemTask.isAssigned());
         assertEquals(assignee, todoItemTask.getAssignee());
     }
+
+    @Test
+    void testSetTodoItem() {
+        Person creator = new Person(1, "Erik", "Jansson", "erik.jansson@example.com");
+        TodoItem todoItem = new TodoItem(1, "Test Task", "Description", LocalDate.of(2024, 6, 30), false, creator);
+        TodoItemTask todoItemTask = new TodoItemTask(1, todoItem, null);
+        TodoItem newTodoItem = new TodoItem(2, "New Task", "New Description", LocalDate.of(2024, 7, 30), false, creator);
+        todoItemTask.setTodoItem(newTodoItem);
+        assertEquals(newTodoItem, todoItemTask.getTodoItem());
+    }
 }

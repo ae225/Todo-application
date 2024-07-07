@@ -25,4 +25,12 @@ class PersonTest {
         person.setFirstName("Sven");
         assertEquals("Sven", person.getFirstName());
     }
+
+    @Test
+    void testSetCredentials() {
+        Person person = new Person(1, "Erik", "Jansson", "erik.jansson@example.com");
+        AppUser appUser = new AppUser("username", "password", AppRole.ROLE_APP_USER);
+        person.setCredentials(appUser);
+        assertEquals(appUser, person.getCredentials());
+    }
 }

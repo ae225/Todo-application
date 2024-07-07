@@ -31,4 +31,20 @@ class TodoItemTest {
         todoItem.setTitle("New Title");
         assertEquals("New Title", todoItem.getTitle());
     }
+
+    @Test
+    void testSetCreator() {
+        Person creator = new Person(1, "Erik", "Jansson", "erik.jansson@example.com");
+        TodoItem todoItem = new TodoItem(1, "Test Task", "Description", LocalDate.of(2024, 6, 30), false, creator);
+        Person newCreator = new Person(2, "Sven", "Andersson", "sven.andersson@example.com");
+        todoItem.setCreator(newCreator);
+        assertEquals(newCreator, todoItem.getCreator());
+    }
+
+    @Test
+    void testIsOverdue() {
+        Person creator = new Person(1, "Erik", "Jansson", "erik.jansson@example.com");
+        TodoItem todoItem = new TodoItem(1, "Test Task", "Description", LocalDate.now().minusDays(1), false, creator);
+        assertTrue(todoItem.isOverdue());
+    }
 }
