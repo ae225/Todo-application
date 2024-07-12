@@ -1,6 +1,9 @@
 package se.lexicon;
 
 import org.junit.jupiter.api.Test;
+import se.lexicon.model.Person;
+import se.lexicon.model.TodoItem;
+
 import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 

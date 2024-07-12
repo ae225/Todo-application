@@ -1,6 +1,10 @@
 package se.lexicon;
 
 import org.junit.jupiter.api.Test;
+import se.lexicon.model.AppRole;
+import se.lexicon.model.AppUser;
+import se.lexicon.model.Person;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PersonTest {
