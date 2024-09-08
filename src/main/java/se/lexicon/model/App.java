@@ -62,6 +62,7 @@ public class App {
         String lastName = scanner.nextLine();
         System.out.print("Enter email: ");
         String email = scanner.nextLine();
+
         System.out.print("Enter username: ");
         String username = scanner.nextLine();
         System.out.print("Enter password: ");
@@ -72,8 +73,9 @@ public class App {
         AppRole role = (roleChoice == 1) ? AppRole.ROLE_APP_USER : AppRole.ROLE_APP_ADMIN;
 
         Person person = new Person(personIdCounter++, firstName, lastName, email);
+
         AppUser appUser = new AppUser(username, password, role);
-        person.setCredentials(appUser);
+        person.setCredentials(appUser);  // Ensure this method exists
 
         persons.add(person);
         System.out.println("Person added: " + person);
@@ -88,20 +90,20 @@ public class App {
         String deadlineStr = scanner.nextLine();
         LocalDate deadline = LocalDate.parse(deadlineStr);
 
-        System.out.println("Choose creator by ID:");
+        System.out.println("Choose assignee by ID (or 0 for unassigned):");
         for (Person person : persons) {
             System.out.println(person.getId() + ": " + person);
         }
-        int creatorId = scanner.nextInt();
+        int assigneeId = scanner.nextInt();
         scanner.nextLine();
 
-        Person creator = findPersonById(creatorId);
-        if (creator == null) {
-            System.out.println("Invalid creator ID.");
+        Person assignee = (assigneeId == 0) ? null : findPersonById(assigneeId);
+        if (assigneeId != 0 && assignee == null) {
+            System.out.println("Invalid assignee ID.");
             return;
         }
 
-        TodoItem todoItem = new TodoItem(todoItemIdCounter++, title, description, deadline, false, creator);
+        TodoItem todoItem = new TodoItem(todoItemIdCounter++, title, description, deadline, false, assignee);
         todoItems.add(todoItem);
         System.out.println("Todo item added: " + todoItem);
     }
@@ -120,22 +122,28 @@ public class App {
             return;
         }
 
-        System.out.println("Choose assignee by ID:");
+        System.out.println("Choose assignee by ID (or 0 to remove current assignee):");
         for (Person person : persons) {
             System.out.println(person.getId() + ": " + person);
         }
         int assigneeId = scanner.nextInt();
         scanner.nextLine();
 
-        Person assignee = findPersonById(assigneeId);
-        if (assignee == null) {
+        Person assignee = (assigneeId == 0) ? null : findPersonById(assigneeId);
+        if (assigneeId != 0 && assignee == null) {
             System.out.println("Invalid assignee ID.");
             return;
         }
 
-        TodoItemTask todoItemTask = new TodoItemTask(todoItemTaskIdCounter++, todoItem, assignee);
-        todoItemTasks.add(todoItemTask);
-        System.out.println("Todo item task assigned: " + todoItemTask);
+        todoItem.setAssignee(assignee);
+
+        if (assignee != null) {
+            TodoItemTask todoItemTask = new TodoItemTask(todoItemTaskIdCounter++, todoItem, assignee);
+            todoItemTasks.add(todoItemTask);
+            System.out.println("Todo item task assigned: " + todoItemTask);
+        } else {
+            System.out.println("Todo item reassigned without creating a new task.");
+        }
     }
 
     private static void viewAllTodoItems() {

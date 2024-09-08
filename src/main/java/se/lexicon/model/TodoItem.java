@@ -10,6 +10,7 @@ public class TodoItem {
     private LocalDate deadLine;
     private boolean done;
     private Person creator;
+    private Person assignee;  // Add this field if it doesn't exist
 
     public TodoItem(int id, String title, String taskDescription, LocalDate deadLine, boolean done, Person creator) {
         if (title == null || title.isEmpty()) {
@@ -27,6 +28,7 @@ public class TodoItem {
         this.deadLine = deadLine;
         this.done = done;
         this.creator = creator;
+        this.assignee = null;
     }
 
     public int getId() {
@@ -51,6 +53,14 @@ public class TodoItem {
 
     public Person getCreator() {
         return creator;
+    }
+
+    public Person getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(Person assignee) {
+        this.assignee = assignee;
     }
 
     public void setTitle(String title) {

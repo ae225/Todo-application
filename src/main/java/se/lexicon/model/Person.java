@@ -27,27 +27,15 @@ public class Person {
         return firstName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public AppUser getCredentials() {
-        return credentials;
-    }
-
-    public void setCredentials(AppUser credentials) {
-        this.credentials = credentials;
-    }
-
     public void setFirstName(String firstName) {
         if (firstName == null) {
             throw new IllegalArgumentException("First name cannot be null");
         }
         this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public void setLastName(String lastName) {
@@ -57,11 +45,23 @@ public class Person {
         this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         if (email == null) {
             throw new IllegalArgumentException("Email cannot be null");
         }
         this.email = email;
+    }
+
+    public AppUser getCredentials() {
+        return credentials;
+    }
+
+    public void setCredentials(AppUser credentials) {
+        this.credentials = credentials;
     }
 
     @Override

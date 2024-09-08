@@ -1,5 +1,6 @@
 package se.lexicon.dao;
 
+import se.lexicon.model.Person;
 import se.lexicon.model.TodoItem;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -15,7 +16,7 @@ public class TodoItemDAOCollection implements TodoItemDAO {
     }
 
     @Override
-    public TodoItem persist(TodoItem todoItem) {
+    public TodoItem create(TodoItem todoItem) {
         if (todoItem == null || todoItemCollection.containsKey(todoItem.getId())) {
             return null;
         }
@@ -34,42 +35,43 @@ public class TodoItemDAOCollection implements TodoItemDAO {
     }
 
     @Override
-    public Collection<TodoItem> findAllByDoneStatus(boolean done) {
+    public Collection<TodoItem> findByDoneStatus(boolean done) {
         return todoItemCollection.values().stream()
                 .filter(todoItem -> todoItem.isDone() == done)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Collection<TodoItem> findByTitleContains(String title) {
+    public Collection<TodoItem> findByAssignee(int personId) {
         return todoItemCollection.values().stream()
-                .filter(todoItem -> todoItem.getTitle().toLowerCase().contains(title.toLowerCase()))
+                .filter(todoItem -> todoItem.getCreator() != null && todoItem.getCreator().getId() == personId)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Collection<TodoItem> findByPersonId(int personId) {
+    public Collection<TodoItem> findByAssignee(Person person) {
         return todoItemCollection.values().stream()
-                .filter(todoItem -> todoItem.getCreator().getId() == personId)
+                .filter(todoItem -> todoItem.getCreator() != null && todoItem.getCreator().equals(person))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Collection<TodoItem> findByDeadlineBefore(LocalDate date) {
+    public Collection<TodoItem> findByUnassignedTodoItems() {
         return todoItemCollection.values().stream()
-                .filter(todoItem -> todoItem.getDeadLine().isBefore(date))
+                .filter(todoItem -> todoItem.getCreator() == null)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Collection<TodoItem> findByDeadlineAfter(LocalDate date) {
-        return todoItemCollection.values().stream()
-                .filter(todoItem -> todoItem.getDeadLine().isAfter(date))
-                .collect(Collectors.toList());
+    public TodoItem update(TodoItem todoItem) {
+        if (todoItem == null || !todoItemCollection.containsKey(todoItem.getId())) {
+            return null;
+        }
+        return todoItemCollection.put(todoItem.getId(), todoItem);
     }
 
     @Override
-    public void remove(int id) {
-        todoItemCollection.remove(id);
+    public boolean deleteById(int id) {
+        return todoItemCollection.remove(id) != null;
     }
 }
