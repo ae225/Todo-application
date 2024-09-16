@@ -10,11 +10,9 @@ import java.util.Map;
 
 public class PersonDAOCollection implements PersonDAO {
     private final Map<Integer, Person> personCollection;
-    private final Map<String, Person> emailIndex;
 
     public PersonDAOCollection() {
         this.personCollection = new HashMap<>();
-        this.emailIndex = new HashMap<>();
     }
 
     @Override
@@ -23,7 +21,6 @@ public class PersonDAOCollection implements PersonDAO {
             return null;
         }
         personCollection.put(person.getId(), person);
-        emailIndex.put(person.getEmail(), person);
         return person;
     }
 
@@ -53,19 +50,11 @@ public class PersonDAOCollection implements PersonDAO {
         if (person == null || !personCollection.containsKey(person.getId())) {
             return null;
         }
-        Person oldPerson = personCollection.put(person.getId(), person);
-        emailIndex.remove(oldPerson.getEmail());
-        emailIndex.put(person.getEmail(), person);
-        return person;
+        return personCollection.put(person.getId(), person);
     }
 
     @Override
     public boolean deleteById(int id) {
-        Person removedPerson = personCollection.remove(id);
-        if (removedPerson != null) {
-            emailIndex.remove(removedPerson.getEmail());
-            return true;
-        }
-        return false;
+        return personCollection.remove(id) != null;
     }
 }

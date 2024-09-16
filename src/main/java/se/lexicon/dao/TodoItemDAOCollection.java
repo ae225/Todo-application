@@ -2,14 +2,14 @@ package se.lexicon.dao;
 
 import se.lexicon.model.Person;
 import se.lexicon.model.TodoItem;
-import java.time.LocalDate;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class TodoItemDAOCollection implements TodoItemDAO {
-    private Map<Integer, TodoItem> todoItemCollection;
+    private final Map<Integer, TodoItem> todoItemCollection;
 
     public TodoItemDAOCollection() {
         this.todoItemCollection = new HashMap<>();
@@ -44,21 +44,21 @@ public class TodoItemDAOCollection implements TodoItemDAO {
     @Override
     public Collection<TodoItem> findByAssignee(int personId) {
         return todoItemCollection.values().stream()
-                .filter(todoItem -> todoItem.getCreator() != null && todoItem.getCreator().getId() == personId)
+                .filter(todoItem -> todoItem.getAssignee() != null && todoItem.getAssignee().getId() == personId)
                 .collect(Collectors.toList());
     }
 
     @Override
     public Collection<TodoItem> findByAssignee(Person person) {
         return todoItemCollection.values().stream()
-                .filter(todoItem -> todoItem.getCreator() != null && todoItem.getCreator().equals(person))
+                .filter(todoItem -> person.equals(todoItem.getAssignee()))
                 .collect(Collectors.toList());
     }
 
     @Override
     public Collection<TodoItem> findByUnassignedTodoItems() {
         return todoItemCollection.values().stream()
-                .filter(todoItem -> todoItem.getCreator() == null)
+                .filter(todoItem -> todoItem.getAssignee() == null)
                 .collect(Collectors.toList());
     }
 

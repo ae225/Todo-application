@@ -6,53 +6,62 @@ import java.util.Objects;
 public class TodoItem {
     private int id;
     private String title;
-    private String taskDescription;
-    private LocalDate deadLine;
+    private String description;
+    private LocalDate deadline;
     private boolean done;
-    private Person creator;
-    private Person assignee;  // Add this field if it doesn't exist
+    private Person assignee;
 
-    public TodoItem(int id, String title, String taskDescription, LocalDate deadLine, boolean done, Person creator) {
-        if (title == null || title.isEmpty()) {
-            throw new IllegalArgumentException("Title cannot be null or empty");
-        }
-        if (deadLine == null) {
-            throw new IllegalArgumentException("Deadline cannot be null");
-        }
-        if (creator == null) {
-            throw new IllegalArgumentException("Creator cannot be null");
-        }
+
+    public TodoItem() {}
+
+    public TodoItem(int id, String title, String description, LocalDate deadline, boolean done, Person assignee) {
         this.id = id;
         this.title = title;
-        this.taskDescription = taskDescription;
-        this.deadLine = deadLine;
+        this.description = description;
+        this.deadline = deadline;
         this.done = done;
-        this.creator = creator;
-        this.assignee = null;
+        this.assignee = assignee;
     }
+
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getTaskDescription() {
-        return taskDescription;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public LocalDate getDeadLine() {
-        return deadLine;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDate getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
     }
 
     public boolean isDone() {
         return done;
     }
 
-    public Person getCreator() {
-        return creator;
+    public void setDone(boolean done) {
+        this.done = done;
     }
 
     public Person getAssignee() {
@@ -63,54 +72,22 @@ public class TodoItem {
         this.assignee = assignee;
     }
 
-    public void setTitle(String title) {
-        if (title == null || title.isEmpty()) {
-            throw new IllegalArgumentException("Title cannot be null or empty");
-        }
-        this.title = title;
-    }
-
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
-    }
-
-    public void setDeadLine(LocalDate deadLine) {
-        if (deadLine == null) {
-            throw new IllegalArgumentException("Deadline cannot be null");
-        }
-        this.deadLine = deadLine;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
-    }
-
-    public void setCreator(Person creator) {
-        if (creator == null) {
-            throw new IllegalArgumentException("Creator cannot be null");
-        }
-        this.creator = creator;
-    }
-
-    public boolean isOverdue() {
-        return LocalDate.now().isAfter(deadLine);
-    }
-
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        TodoItem todoItem = (TodoItem) obj;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TodoItem todoItem = (TodoItem) o;
         return id == todoItem.id &&
                 done == todoItem.done &&
                 Objects.equals(title, todoItem.title) &&
-                Objects.equals(taskDescription, todoItem.taskDescription) &&
-                Objects.equals(deadLine, todoItem.deadLine);
+                Objects.equals(description, todoItem.description) &&
+                Objects.equals(deadline, todoItem.deadline) &&
+                Objects.equals(assignee, todoItem.assignee);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, taskDescription, deadLine, done);
+        return Objects.hash(id, title, description, deadline, done, assignee);
     }
 
     @Override
@@ -118,9 +95,10 @@ public class TodoItem {
         return "TodoItem{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", taskDescription='" + taskDescription + '\'' +
-                ", deadLine=" + deadLine +
+                ", description='" + description + '\'' +
+                ", deadline=" + deadline +
                 ", done=" + done +
+                ", assignee=" + assignee +
                 '}';
     }
 }
